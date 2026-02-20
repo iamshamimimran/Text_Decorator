@@ -41,6 +41,6 @@
   "overrides": {
     "nth-check": "^2.1.1",
     "postcss": "^8.4.31",
-    "minimatch": "^3.1.2"
+    "bfj": "^9.1.3"
   }
 }
