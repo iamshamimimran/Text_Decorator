@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 export default function TextForm(props) {
+
+    const textRef = useRef(null);
 
     const handleUpCase=()=>{
         // console.log("text");
@@ -20,16 +22,12 @@ export default function TextForm(props) {
         props.showAlert("Text Cleared")
     }
 
-    const copyText = async () => {
-        let text = document.getElementById("myBox");
-        text.select();
-        try {
-            await navigator.clipboard.writeText(text.value);
-            props.showAlert("Text Copied to Clipboard", "success");
-        } catch (err) {
-            props.showAlert("Failed to copy: ", "danger");
-        } finally {
+    const copyText =()=>{
+        if (textRef.current) {
+            textRef.current.select();
+            navigator.clipboard.writeText(textRef.current.value);
             document.getSelection().removeAllRanges();
+            props.showAlert("Text Copy to Clipboard")
         }
     }
 
@@ -44,12 +42,13 @@ export default function TextForm(props) {
     }
 
     const [text, setText] = useState("");
+    const wordCount = text.split(/\s+/).filter((element)=>{return element.length!==0}).length;
   return (
     <>
     <div className="mt-4">
     <h1 style={myStyle}>{props.heading}</h1>
   <div className="mb-3">
-    <textarea className="form-control" onChange={handleOnChange} value={text} id="myBox" rows="8"></textarea>
+    <textarea className="form-control" onChange={handleOnChange} value={text} id="myBox" rows="8" ref={textRef}></textarea>
     </div>
     <button disabled={text.length===0} className="btn btn-primary mx-2 my-2" onClick={handleUpCase} >Convert to UpperCase</button>
     <button disabled={text.length===0} className="btn btn-success mx-2 my-2" onClick={handleCase} >Convert to LowerCase</button>
@@ -59,10 +58,10 @@ export default function TextForm(props) {
 
     <div className=" my-3 container">
         <h3>Your Word Summary</h3>
-        <p>{text.split(/\s+/).filter((element)=>{return element.length!==0}).length} Words and {text.length} Cahracters</p>
+        <p>{wordCount} Words and {text.length} Characters</p>
 
         <h3>Estimated time to read</h3>
-        <p>{0.008 * text.split(/\s+/).filter((element)=>{return element.length!==0}).length} Minutes</p>
+        <p>{0.008 * wordCount} Minutes</p>
     </div>
     <div className=' my-3 container' style={{width:"600px"}}>
         <h3>Preview</h3>
