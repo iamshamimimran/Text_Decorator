@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import Alert from "./components/Alert";
 import Navbar from "./components/Navbar";
@@ -17,12 +17,15 @@ function App() {
       setAlert(null);
     }, 1500);
   }
-  setInterval(() => {
-    document.title='Amaizing'
-  }, 1500);
-  setInterval(() => {
-    document.title='Text Decoder'
-  }, 1500);
+  useEffect(() => {
+    let toggle = true;
+    const intervalId = setInterval(() => {
+      document.title = toggle ? 'Amaizing' : 'Text Decoder';
+      toggle = !toggle;
+    }, 1500);
+
+    return () => clearInterval(intervalId);
+  }, []);
   return (
   <>
   
