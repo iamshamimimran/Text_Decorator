@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import Alert from "./components/Alert";
 import Navbar from "./components/Navbar";
@@ -8,12 +8,16 @@ import Footer from "./components/Footer";
 function App() {
 
   const [alert, setAlert] = useState(null);
+  const alertTimerRef = useRef(null);
   const showAlert = (message, type) =>{
     setAlert({
       message:message,
       type:type
     })
-    setTimeout(() => {
+    if (alertTimerRef.current) {
+      clearTimeout(alertTimerRef.current);
+    }
+    alertTimerRef.current = setTimeout(() => {
       setAlert(null);
     }, 1500);
   }

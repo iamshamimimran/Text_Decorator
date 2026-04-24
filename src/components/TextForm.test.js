@@ -96,6 +96,6 @@ describe('TextForm Component', () => {
 
     fireEvent.change(textarea, { target: { value: 'One two three' } });
 
-    expect(screen.getByText(/3 Words and 13 Cahracters/)).toBeInTheDocument();
+    expect(screen.getByText(/3 Words and 13 Characters/)).toBeInTheDocument();
   });
 });
