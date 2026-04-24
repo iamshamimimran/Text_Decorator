@@ -17,15 +17,15 @@ function App() {
       setAlert(null);
     }, 1500);
   }
-
   useEffect(() => {
-    const interval = setInterval(() => {
-      document.title = document.title === 'Amaizing' ? 'Text Decoder' : 'Amaizing';
+    let toggle = true;
+    const intervalId = setInterval(() => {
+      document.title = toggle ? 'Amaizing' : 'Text Decoder';
+      toggle = !toggle;
     }, 1500);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(intervalId);
   }, []);
-
   return (
   <>
   
