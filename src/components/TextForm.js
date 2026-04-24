@@ -20,12 +20,17 @@ export default function TextForm(props) {
         props.showAlert("Text Cleared")
     }
 
-    const copyText =()=>{
+    const copyText = async () => {
         let text = document.getElementById("myBox");
         text.select();
-        navigator.clipboard.writeText(text.value);
-        document.getSelection().removeAllRanges();
-        props.showAlert("Text Copy to Clipboard")
+        try {
+            await navigator.clipboard.writeText(text.value);
+            props.showAlert("Text Copied to Clipboard", "success");
+        } catch (err) {
+            props.showAlert("Failed to copy: ", "danger");
+        } finally {
+            document.getSelection().removeAllRanges();
+        }
     }
 
 
