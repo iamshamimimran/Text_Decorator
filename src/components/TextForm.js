@@ -39,6 +39,7 @@ export default function TextForm(props) {
     }
 
     const [text, setText] = useState("");
+    const wordCount = text.split(/\s+/).filter((element)=>{return element.length!==0}).length;
   return (
     <>
     <div className="mt-4">
@@ -54,10 +55,10 @@ export default function TextForm(props) {
 
     <div className=" my-3 container">
         <h3>Your Word Summary</h3>
-        <p>{text.split(/\s+/).filter((element)=>{return element.length!==0}).length} Words and {text.length} Cahracters</p>
+        <p>{wordCount} Words and {text.length} Characters</p>
 
         <h3>Estimated time to read</h3>
-        <p>{0.008 * text.split(/\s+/).filter((element)=>{return element.length!==0}).length} Minutes</p>
+        <p>{0.008 * wordCount} Minutes</p>
     </div>
     <div className=' my-3 container' style={{width:"600px"}}>
         <h3>Preview</h3>
