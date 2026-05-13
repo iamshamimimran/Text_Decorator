@@ -1,47 +1,66 @@
-import { useState, useEffect, useRef } from "react";
-import "./App.css";
-import Alert from "./components/Alert";
-import Navbar from "./components/Navbar";
-import TextForm from "./components/TextForm";
-import Footer from "./components/Footer";
+import React, { useState, useEffect } from 'react';
+import './App.css';
+import Navbar from './components/Navbar';
+import TextForm from './components/TextForm';
+import Footer from './components/Footer';
+import Toast from './components/Toast';
 
 function App() {
+  // Theme state with localStorage persistence
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('text-decorator-theme') || 'dark-space';
+  });
 
-  const [alert, setAlert] = useState(null);
-  const alertTimerRef = useRef(null);
-  const showAlert = (message, type) =>{
-    setAlert({
-      message:message,
-      type:type
-    })
-    if (alertTimerRef.current) {
-      clearTimeout(alertTimerRef.current);
-    }
-    alertTimerRef.current = setTimeout(() => {
-      setAlert(null);
-    }, 1500);
-  }
+  // Toast alert system
+  const [toast, setToast] = useState(null);
+
+  const showAlert = (message, type = 'Info') => {
+    setToast({ message, type });
+  };
+
+  const handleCloseToast = () => {
+    setToast(null);
+  };
+
+  // Sync theme with document element
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('text-decorator-theme', theme);
+  }, [theme]);
+
+  // Sync title alteration decoration
   useEffect(() => {
     let toggle = true;
     const intervalId = setInterval(() => {
-      document.title = toggle ? 'Amaizing' : 'Text Decoder';
+      document.title = toggle ? 'Text Decorator ✨' : 'Perfect Text Utility 🔮';
       toggle = !toggle;
-    }, 1500);
+    }, 2500);
 
     return () => clearInterval(intervalId);
   }, []);
-  return (
-  <>
-  
-  <Navbar title="Text Decorator"/>
-  <Alert alert={alert}/>
 
-  <div className="container my-3"> 
-  <TextForm showAlert={showAlert} heading="Enter your text here"/>
-  </div>
-  <Footer/>
-  </>
-    
+  return (
+    <div className="d-flex flex-column min-vh-100">
+      {/* Sticky Premium Navbar */}
+      <Navbar title="Text Decorator" theme={theme} setTheme={setTheme} />
+
+      {/* Floating Modern Toast Alerts */}
+      {toast && (
+        <Toast 
+          message={toast.message} 
+          type={toast.type} 
+          onClose={handleCloseToast} 
+        />
+      )}
+
+      {/* Main Workspace Frame */}
+      <main className="container flex-grow-1 my-2">
+        <TextForm showAlert={showAlert} heading="Advanced Text Formatting Hub" />
+      </main>
+
+      {/* Minimal Aesthetic Footer */}
+      <Footer />
+    </div>
   );
 }
 

@@ -1,13 +1,197 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* --- Theme Declarations --- */
+:root, [data-theme="dark-space"] {
+  --bg-gradient: radial-gradient(circle at 50% 50%, #120e2e 0%, #080616 100%);
+  --panel-bg: rgba(22, 17, 53, 0.55);
+  --panel-border: rgba(147, 51, 234, 0.2);
+  --panel-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+  --text-primary: #f3f0ff;
+  --text-secondary: #c0b5e8;
+  --text-muted: #8b7cb8;
+  --accent-primary: #a855f7;
+  --accent-primary-hover: #c084fc;
+  --accent-primary-glow: rgba(168, 85, 247, 0.35);
+  --accent-secondary: #06b6d4;
+  --accent-secondary-hover: #22d3ee;
+  --accent-danger: #ef4444;
+  --accent-danger-hover: #f87171;
+  --accent-success: #10b981;
+  --accent-success-hover: #34d399;
+  --textarea-bg: rgba(8, 6, 22, 0.5);
+  --textarea-focus-border: #a855f7;
+  --glass-blur: blur(16px);
+  --card-header-bg: rgba(168, 85, 247, 0.08);
+}
+
+[data-theme="aurora-forest"] {
+  --bg-gradient: radial-gradient(circle at 50% 50%, #061f18 0%, #020b09 100%);
+  --panel-bg: rgba(10, 36, 29, 0.55);
+  --panel-border: rgba(16, 185, 129, 0.2);
+  --panel-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
+  --text-primary: #e6fcf5;
+  --text-secondary: #a9e0cf;
+  --text-muted: #72a997;
+  --accent-primary: #10b981;
+  --accent-primary-hover: #34d399;
+  --accent-primary-glow: rgba(16, 185, 129, 0.35);
+  --accent-secondary: #14b8a6;
+  --accent-secondary-hover: #2dd4bf;
+  --accent-danger: #f43f5e;
+  --accent-danger-hover: #fb7185;
+  --accent-success: #059669;
+  --accent-success-hover: #10b981;
+  --textarea-bg: rgba(2, 11, 9, 0.5);
+  --textarea-focus-border: #10b981;
+  --glass-blur: blur(16px);
+  --card-header-bg: rgba(16, 185, 129, 0.08);
+}
+
+[data-theme="minimalist-light"] {
+  --bg-gradient: radial-gradient(circle at 50% 50%, #faf9f6 0%, #edebe5 100%);
+  --panel-bg: rgba(255, 255, 255, 0.65);
+  --panel-border: rgba(115, 103, 240, 0.15);
+  --panel-shadow: 0 16px 36px rgba(165, 163, 174, 0.15);
+  --text-primary: #2f2b3d;
+  --text-secondary: #5d596c;
+  --text-muted: #8a8693;
+  --accent-primary: #7367f0;
+  --accent-primary-hover: #8f85f3;
+  --accent-primary-glow: rgba(115, 103, 240, 0.18);
+  --accent-secondary: #00bad1;
+  --accent-secondary-hover: #33c7da;
+  --accent-danger: #ea5455;
+  --accent-danger-hover: #ee7071;
+  --accent-success: #28c76f;
+  --accent-success-hover: #4cd38c;
+  --textarea-bg: rgba(255, 255, 255, 0.8);
+  --textarea-focus-border: #7367f0;
+  --glass-blur: blur(20px);
+  --card-header-bg: rgba(115, 103, 240, 0.05);
+}
+
+/* --- Base Rules --- */
+* {
+  box-sizing: border-box;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  padding: 0;
+}
+
+body {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  transition: background 0.5s ease, color 0.3s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Custom modern scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--panel-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
+
+/* --- Reusable Glassmorphism Styles --- */
+.glass-panel {
+  background: var(--panel-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+  box-shadow: var(--panel-shadow);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-panel:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.glass-card-header {
+  background: var(--card-header-bg);
+  border-bottom: 1px solid var(--panel-border);
+  padding: 1rem 1.5rem;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+/* --- Typography Effects --- */
+.glowing-title {
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px var(--accent-primary-glow);
+  letter-spacing: -0.5px;
+}
+
+/* --- Animations --- */
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toastIn {
+  from {
+    transform: translateX(120%) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes toastOut {
+  from {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(120%) scale(0.9);
+    opacity: 0;
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(168, 85, 247, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(168, 85, 247, 0);
+  }
+}
+
+/* --- Utilities --- */
+.transition-all {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.font-monospace {
+  font-family: 'Fira Code', 'Courier New', monospace !important;
 }
